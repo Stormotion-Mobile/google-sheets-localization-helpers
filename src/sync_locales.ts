@@ -51,7 +51,8 @@ const syncLocales = async ({
     }
   );
 
-  fs.promises.mkdir(localesDirectoryPath).catch(console.log);
+  !fs.existsSync(localesDirectoryPath) &&
+    fs.promises.mkdir(localesDirectoryPath).catch(console.log);
 
   const writeOperations = localeInfo.map(([resource, code]) =>
     fs.promises.writeFile(
