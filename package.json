@@ -1,6 +1,6 @@
 {
   "name": "google-sheets-localization-helpers",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Helpers to sync locale data from a Google Sheet",
   "author": "troickiykirill@gmail.com",
   "main": "build/index.js",
