@@ -2,8 +2,10 @@
   "name": "google-sheets-localization-helpers",
   "version": "0.0.3",
   "description": "Helpers to sync locale data from a Google Sheet",
-  "main": "index.js",
   "author": "troickiykirill@gmail.com",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "prepublish": "tsc",
   "license": "MIT",
   "devDependencies": {
     "@types/google-spreadsheet": "^3.1.5",
