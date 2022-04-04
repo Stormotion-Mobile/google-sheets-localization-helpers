@@ -1,5 +1,5 @@
 {
-  "name": "google-sheets-localization-helpers",
+  "name": "@stormotion/google-sheets-localization-helpers",
   "version": "0.0.6",
   "description": "Helpers to sync locale data from a Google Sheet",
   "author": "troickiykirill@gmail.com",
