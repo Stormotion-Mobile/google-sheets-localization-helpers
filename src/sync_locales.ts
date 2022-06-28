@@ -3,7 +3,7 @@ import { ResourceLanguage } from "i18next";
 import fs from "fs";
 import path from "path";
 
-type SyncLocalesProps = {
+export type SyncLocalesProps = {
   keyColumnName?: string;
   sheetId: string;
   googleApiKey: string;
