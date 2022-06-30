@@ -3,7 +3,7 @@ import syncLocales, { SyncLocalesProps } from "../sync_locales";
 
 type Options = SyncLocalesProps;
 
-export const command: string = "localize";
+export const command: string = "sync";
 export const desc: string =
   "A cli for mapping google sheets into a JSON format";
 
@@ -45,7 +45,7 @@ export const builder: CommandBuilder<Options, Options> = (yargs) =>
 export const handler = (props: Arguments<Options>): void => {
   syncLocales(props)
     .then(() => {
-      console.log("syncing finished successfully");
+      console.log("Syncing finished successfully");
     })
     .catch((e) => console.error(`There was an error when syncing: ${e}`));
 };

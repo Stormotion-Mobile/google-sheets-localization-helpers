@@ -18,5 +18,8 @@
   "dependencies": {
     "google-spreadsheet": "^3.2.0",
     "yargs": "^17.5.1"
+  },
+  "bin": {
+    "sheet-localizer": "./build/cli.js"
   }
 }
