@@ -3,12 +3,19 @@ import { ResourceLanguage } from "i18next";
 import fs from "fs";
 import path from "path";
 
+type TransformFunc = (translation: Translation) => object;
+
+const DEFAULT_TRANSFORM_FUNCTION: TransformFunc = (translation) => ({
+  translation,
+});
+
 export type SyncLocalesProps = {
   keyColumnName?: string;
   sheetId: string;
   googleApiKey: string;
   sheetIndex: number;
   localesDirectoryPath: string;
+  transformOutput?: TransformFunc;
 };
 
 type Translation = { [section: string]: { [key: string]: string | undefined } };
@@ -19,6 +26,7 @@ const syncLocales = async ({
   googleApiKey,
   sheetIndex,
   localesDirectoryPath,
+  transformOutput = DEFAULT_TRANSFORM_FUNCTION,
 }: SyncLocalesProps) => {
   const doc = new GoogleSpreadsheet(sheetId);
   doc.useApiKey(googleApiKey);
@@ -32,24 +40,20 @@ const syncLocales = async ({
 
   const rows = await sheet.getRows();
 
-  const localeInfo: [ResourceLanguage, string][] = localeFilenames.map(
-    (langCode) => {
-      const translation: Translation = {};
-      rows.forEach((row) => {
-        const [section, key] = String(row[keyColumnName]).split(".", 2);
+  const localeInfo: [object, string][] = localeFilenames.map((langCode) => {
+    const translation: Translation = {};
+    rows.forEach((row) => {
+      const [section, key] = String(row[keyColumnName]).split(".", 2);
 
-        translation[section] = {
-          ...translation[section],
-          [key]: row[langCode] || undefined,
-        };
-      });
-      const languageResource: ResourceLanguage = {
-        translation,
+      translation[section] = {
+        ...translation[section],
+        [key]: row[langCode] || undefined,
       };
+    });
+    const languageResource = transformOutput(translation);
 
-      return [languageResource, langCode];
-    }
-  );
+    return [languageResource, langCode];
+  });
 
   !fs.existsSync(localesDirectoryPath) &&
     fs.promises.mkdir(localesDirectoryPath).catch(console.log);
