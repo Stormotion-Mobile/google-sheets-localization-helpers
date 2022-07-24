@@ -1,6 +1,6 @@
 {
   "name": "@stormotion/google-sheets-localization-helpers",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Helpers to sync locale data from a Google Sheet",
   "author": "troickiykirill@gmail.com",
   "main": "build/index.js",
@@ -10,6 +10,7 @@
   "devDependencies": {
     "@types/google-spreadsheet": "^3.1.5",
     "@types/node": "^17.0.7",
+    "@types/ramda": "^0.28.15",
     "@types/yargs": "^17.0.10",
     "i18next": "^21.6.5",
     "ts-node": "^10.4.0",
@@ -17,6 +18,8 @@
   },
   "dependencies": {
     "google-spreadsheet": "^3.2.0",
+    "ramda": "^0.28.0",
+    "tsv-parser": "^2.0.3",
     "yargs": "^17.5.1"
   },
   "bin": {

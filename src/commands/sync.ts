@@ -1,13 +1,23 @@
 import type { Arguments, CommandBuilder } from "yargs";
-import syncLocales, { SyncLocalesProps } from "../sync_locales";
+import syncLocales, {
+  SyncLocalesBaseProps,
+  SyncLocalesProps,
+  SyncLocalesSourceType,
+} from "../sync_locales";
 
-type Options = SyncLocalesProps;
+type CliOptions = {
+  sourceType: string;
+  sheetId?: string;
+  googleApiKey?: string;
+  sheetIndex?: number;
+  sourceLink?: string;
+} & Omit<SyncLocalesBaseProps, "transformOutput">;
 
 export const command: string = "sync";
 export const desc: string =
   "A cli for mapping google sheets into a JSON format";
 
-export const builder: CommandBuilder<Options, Options> = (yargs) =>
+export const builder: CommandBuilder<CliOptions, CliOptions> = (yargs) =>
   yargs.options({
     keyColumnName: {
       type: "string",
@@ -20,13 +30,11 @@ export const builder: CommandBuilder<Options, Options> = (yargs) =>
       type: "string",
       alias: "id",
       describe: "The ID of the sheet. Normally found in the URL",
-      demandOption: true,
     },
     googleApiKey: {
       alias: "apiKey",
       type: "string",
       describe: "The API key to access the sheet",
-      demandOption: true,
     },
     sheetIndex: {
       alias: "index",
@@ -40,10 +48,67 @@ export const builder: CommandBuilder<Options, Options> = (yargs) =>
       default: "./locales",
       describe: "The path to the output folder",
     },
+    sourceLink: {
+      alias: "link",
+      type: "string",
+      describe: "The URL to the TSV",
+    },
+    sourceType: {
+      alias: "src",
+      type: "string",
+      default: "GoogleSheet",
+      describe: "Either 'GoogleSheet' or 'Tsv'",
+    },
   });
 
-export const handler = (props: Arguments<Options>): void => {
-  syncLocales(props)
+type ERROR_STRING = string;
+
+const getProps = (props: CliOptions): SyncLocalesProps | ERROR_STRING => {
+  const baseProps = {
+    localesDirectoryPath: props.localesDirectoryPath ?? "./locales",
+    keyColumnName: props.keyColumnName,
+  };
+
+  if (props.sourceType === SyncLocalesSourceType.GoogleSheet) {
+    if (!props.googleApiKey) {
+      return "You should specify 'googleApiKey'";
+    }
+
+    if (!props.sheetId) {
+      return "You should specify 'sheetId'";
+    }
+
+    return {
+      ...baseProps,
+      sourceType: SyncLocalesSourceType.GoogleSheet,
+      googleApiKey: props.googleApiKey,
+      sheetId: props.sheetId,
+      sheetIndex: props.sheetIndex ?? 0,
+    };
+  } else if (props.sourceType === SyncLocalesSourceType.Tsv) {
+    if (!props.sourceLink) {
+      return "You should specify 'src' (the URL to TSV file)";
+    }
+
+    return {
+      ...baseProps,
+      sourceType: SyncLocalesSourceType.Tsv,
+      sourceLink: props.sourceLink,
+    };
+  } else {
+    return "The sourceType option should be either 'GoogleSheet' or 'Tsv'";
+  }
+};
+
+export const handler = (props: Arguments<CliOptions>): void => {
+  const syncProps = getProps(props);
+
+  if (typeof syncProps === "string") {
+    console.log(syncProps, "\n Sync error. See the log above.");
+    return;
+  }
+
+  syncLocales(syncProps)
     .then(() => {
       console.log("Syncing finished successfully");
     })
