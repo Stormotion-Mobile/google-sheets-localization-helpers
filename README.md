@@ -109,7 +109,7 @@ As a result of running the file, in the folder `./src/strings/` we get 3 files: 
 Let's say that we publish that sheet from the above as a TSV accessible via this URL: https://docs.google.com/spreadsheets/d/e/2PACX-1vSBY3OfUTGMEtQDy8R87FeqFZK3eVKc3l9MRs043QS7rPxCLzbSzNtjsxHv2L5UtyApQ2SWay3jchN9/pub?gid=0&single=true&output=tsv
 
 Then, we can run the CLI as follows:
-`sheet-localizer sync --src="Tsv" --link="https://docs.google.com/spreadsheets/d/e/2PACX-1vSBY3OfUTGMEtQDy8R87FeqFZK3eVKc3l9MRs043QS7rPxCLzbSzNtjsxHv2L5UtyApQ2SWay3jchN9/pub\?gid\=0\&single\=true\&output\=tsv" --keyColumnName="tag" --path="./src/locales"`
+`sheet-localizer sync --src="Tsv" --sourceLink="https://docs.google.com/spreadsheets/d/e/2PACX-1vS8yRE2oE9C0Xm1EHZZtMP_0WH5Qq1L_aPj9dnRQ_L9ytum5IRqhu1MrHEoVNFbx5ccYqDY3unyDpeZ/pub?gid=0&single=true&output=tsv" --keyColumnName="tag" --path="locales"`
 
 And you get the same files as running from a Node script.
 
@@ -118,3 +118,8 @@ Wonder why the prop names aren't the same as in the props table above? These are
 ### Tips on further usage
 
 A nice way to use this library is to create, for example, a `syncLocales.ts` file at root, and add the following line to package.json's scripts: `"localize": "ts-node syncLocales"`. Then, you can add `yarn localize` to `postinstall`, or just run it anytime you change the content of the sheet. Bingo!
+
+## Known issues
+
+- "TypeError: Cannot convert undefined or null to object" at Function.keys
+  Probably, you didn't pass the correct sourceLink. Check that it doesn't escape characters like `&` or `=`
