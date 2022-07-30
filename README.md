@@ -21,6 +21,8 @@ Regardless of whether the source TSV of Google Sheet, there are the following pr
 | keyColumnName        | string                 | false     | "key"                                              | The title of the column with the locale keys                                    |
 | sourceType           | "GoogleSheet" \| "Tsv" | true      | -                                                  | Specifies the source of the sheet                                               |
 
+<br />
+<br />
 If the prop `sourceType` equals "GoogleSheet", then there are the following props:
 
 | Prop name    | Type   | Required? | Default | Note                                                                                                                                                    |
@@ -29,6 +31,8 @@ If the prop `sourceType` equals "GoogleSheet", then there are the following prop
 | googleApiKey | string | true      | -       | The API key that allows the library to fetch the sheet data. For more info, see [the docs](https://developers.google.com/sheets/api/guides/authorizing) |
 | sheetIndex   | number | true      | -       | The index of the sheet inside the file                                                                                                                  |
 
+<br />
+<br />
 If the prop `sourceType` equals "Tsv", then there are the following props:
 
 | Prop name  | Type   | Required? | Default | Note                                                                 |
