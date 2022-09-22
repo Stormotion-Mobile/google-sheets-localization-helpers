@@ -37,7 +37,7 @@ If the prop `sourceType` equals "GoogleSheet", then there are the following prop
 | Prop name    | Type   | Required? | Default | Note                                                                                                                                                    |
 | ------------ | ------ | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | sheetId      | string | true      | -       | The id of the Google sheet. Normally, can be found in the URL                                                                                           |
-| googleApiKey | string | true      | -       | The API key that allows the library to fetch the sheet data. For more info, see [the docs](https://developers.google.com/sheets/api/guides/authorizing) |
+| googleApiKey | string | true      | -       | The API key that allows the library to fetch the sheet data. For more info, see [the docs](https://theoephraim.github.io/node-google-spreadsheet/#/getting-started/authentication?id=api-key) |
 | sheetIndex   | number | true      | -       | The index of the sheet inside the file                                                                                                                  |
 
 <br />
